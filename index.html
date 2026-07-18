@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#6f918b">
+  <title>均品工程管理系統</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <img src="./icons/icon-192.png" alt="均品 Logo">
+        <div>
+          <h1>均品工程管理系統</h1>
+          <p>JUN PIN INTERIOR DESIGN</p>
+        </div>
+      </div>
+      <button id="logoutBtn" class="secondary hidden">登出</button>
+    </header>
+
+    <main>
+      <section id="loginView" class="panel login-panel">
+        <h2>登入系統</h2>
+        <p>使用 Google 帳號登入，手機與電腦資料會同步。</p>
+        <button id="loginBtn" class="primary">使用 Google 登入</button>
+        <div id="loginMessage" class="message"></div>
+      </section>
+
+      <section id="appView" class="hidden">
+        <div class="toolbar">
+          <div>
+            <h2>工程列表</h2>
+            <p id="userInfo"></p>
+          </div>
+          <button id="newProjectBtn" class="primary">＋ 新增工程</button>
+        </div>
+
+        <div id="projectList" class="project-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="projectDialog">
+    <form id="projectForm" method="dialog">
+      <div class="dialog-head">
+        <h2>新增工程</h2>
+        <button type="button" id="closeDialogBtn" class="icon-btn">✕</button>
+      </div>
+
+      <label>案場名稱
+        <input name="name" required placeholder="例如：八德陳宅">
+      </label>
+
+      <label>業主姓名
+        <input name="owner" required>
+      </label>
+
+      <label>業主電話
+        <input name="ownerPhone" inputmode="tel">
+      </label>
+
+      <label>案場地址
+        <input name="address" required>
+      </label>
+
+      <label>工程類型
+        <select name="projectType">
+          <option>住宅</option>
+          <option>商業空間</option>
+          <option>辦公室</option>
+          <option>店面</option>
+          <option>餐廳</option>
+          <option>咖啡廳</option>
+          <option>診所</option>
+          <option>接待中心</option>
+          <option>其他</option>
+        </select>
+      </label>
+
+      <div class="dialog-actions">
+        <button type="button" id="cancelBtn" class="secondary">取消</button>
+        <button type="submit" class="primary">儲存工程</button>
+      </div>
+      <div id="formMessage" class="message"></div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
