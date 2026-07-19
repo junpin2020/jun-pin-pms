@@ -1,0 +1,9 @@
+name = "jun-pin-pms"
+compatibility_date = "2026-07-20"
+pages_build_output_dir = "."
+
+# 建立 D1 後，把 database_id 貼到下方。
+[[d1_databases]]
+binding = "DB"
+database_name = "jun-pin-pms-db"
+database_id = "請貼上你的-D1-database-id"
