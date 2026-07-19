@@ -3,93 +3,162 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#6f918b">
-  <title>均品工程管理系統</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css">
+  <meta name="theme-color" content="#25373a">
+  <title>均品室內設計｜工程管理系統</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div class="brand">
-        <img src="./icons/icon-192.png" alt="均品 Logo">
-        <div>
-          <h1>均品工程管理系統</h1>
-          <p>JUN PIN INTERIOR DESIGN</p>
-        </div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-wrap">
+        <img id="brandLogo" alt="均品 Logo">
+        <span id="logoFallback">均品</span>
       </div>
-      <button id="logoutBtn" class="secondary hidden">登出</button>
-    </header>
+      <div>
+        <h1>均品室內設計</h1>
+        <div class="en">JUN PIN INTERIOR DESIGN</div>
+        <div class="company">均品室內裝修設計有限公司｜統編 90325015</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="menuBtn" aria-label="開啟選單">☰</button>
+  </header>
 
-    <main>
-      <section id="loginView" class="panel login-panel">
-        <h2>登入系統</h2>
-        <p>使用 Google 帳號登入，手機與電腦資料會同步。</p>
-        <button id="loginBtn" class="primary">使用 Google 登入</button>
-        <div id="loginMessage" class="message"></div>
-      </section>
+  <nav id="nav">
+    <button data-page="dashboard" class="active">首頁</button>
+    <button data-page="projects">工程</button>
+    <button data-page="reports">日誌</button>
+    <button data-page="tasks">待辦</button>
+    <button data-page="settings">設定</button>
+  </nav>
 
-      <section id="appView" class="hidden">
-        <div class="toolbar">
-          <div>
-            <h2>工程列表</h2>
-            <p id="userInfo"></p>
-          </div>
-          <button id="newProjectBtn" class="primary">＋ 新增工程</button>
+  <main>
+    <section id="dashboard" class="page active">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">PROJECT MANAGEMENT SYSTEM</p>
+          <h2>工程管理系統</h2>
+          <p>手機、平板、電腦皆可使用</p>
         </div>
+        <button class="primary" data-go="reports">＋ 新增施工日誌</button>
+      </div>
 
-        <div id="projectList" class="project-list"></div>
+      <div class="stats">
+        <article><span>進行中工程</span><strong id="statProjects">0</strong></article>
+        <article><span>今日施工日誌</span><strong id="statReports">0</strong></article>
+        <article><span>未完成待辦</span><strong id="statTasks">0</strong></article>
+        <article><span>異常紀錄</span><strong id="statIssues">0</strong></article>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head"><h3>最近工程</h3><button class="link-btn" data-go="projects">查看全部</button></div>
+        <div id="recentProjects" class="cards"></div>
       </section>
-    </main>
-  </div>
+
+      <section class="panel">
+        <div class="panel-head"><h3>最新施工日誌</h3><button class="link-btn" data-go="reports">查看全部</button></div>
+        <div id="recentReports" class="list"></div>
+      </section>
+    </section>
+
+    <section id="projects" class="page">
+      <div class="page-head">
+        <div><p class="eyebrow">PROJECTS</p><h2>工程管理</h2></div>
+        <button class="primary" id="newProjectBtn">＋ 新增工程</button>
+      </div>
+      <div id="projectList" class="cards"></div>
+    </section>
+
+    <section id="reports" class="page">
+      <div class="page-head">
+        <div><p class="eyebrow">DAILY REPORTS</p><h2>每日施工日誌</h2></div>
+        <button class="primary" id="newReportBtn">＋ 新增日誌</button>
+      </div>
+      <div id="reportList" class="list"></div>
+    </section>
+
+    <section id="tasks" class="page">
+      <div class="page-head">
+        <div><p class="eyebrow">TASKS</p><h2>待辦事項</h2></div>
+      </div>
+      <form id="taskForm" class="inline-form">
+        <input id="taskText" required placeholder="輸入待辦事項">
+        <select id="taskProject"></select>
+        <input id="taskDate" type="date">
+        <button class="primary">新增</button>
+      </form>
+      <div id="taskList" class="list"></div>
+    </section>
+
+    <section id="settings" class="page">
+      <div class="page-head"><div><p class="eyebrow">SETTINGS</p><h2>系統設定</h2></div></div>
+      <section class="panel">
+        <h3>公司 Logo</h3>
+        <p class="muted">上傳後會儲存在目前裝置。</p>
+        <input id="logoUpload" type="file" accept="image/*">
+      </section>
+      <section class="panel">
+        <h3>資料備份</h3>
+        <div class="actions">
+          <button class="secondary" id="exportBtn">匯出備份</button>
+          <label class="secondary file-label">匯入備份<input id="importInput" type="file" accept=".json"></label>
+          <button class="danger" id="clearBtn">清除全部資料</button>
+        </div>
+      </section>
+      <section class="panel">
+        <h3>Firebase</h3>
+        <p class="muted">目前版本可直接離線使用。把 Firebase 設定填入 <code>firebase-config.js</code> 後即可接雲端同步。</p>
+      </section>
+    </section>
+  </main>
 
   <dialog id="projectDialog">
     <form id="projectForm" method="dialog">
-      <div class="dialog-head">
-        <h2>新增工程</h2>
-        <button type="button" id="closeDialogBtn" class="icon-btn">✕</button>
+      <div class="dialog-head"><h3>工程資料</h3><button type="button" class="icon-btn close">×</button></div>
+      <input type="hidden" id="projectId">
+      <div class="form-grid">
+        <label class="wide">案場名稱 *<input id="projectName" required></label>
+        <label>業主姓名<input id="ownerName"></label>
+        <label>聯絡電話<input id="ownerPhone" type="tel"></label>
+        <label class="wide">案場地址<input id="projectAddress"></label>
+        <label>施工階段<select id="projectStage"></select></label>
+        <label>狀態<select id="projectStatus"><option>規劃中</option><option selected>施工中</option><option>暫停</option><option>已完工</option></select></label>
+        <label>預計開工<input id="startDate" type="date"></label>
+        <label>預計完工<input id="endDate" type="date"></label>
+        <label>設計師<input id="designer"></label>
+        <label>現場負責人<input id="foreman"></label>
+        <label class="wide">工程進度 <span id="progressValue">0%</span><input id="progress" type="range" min="0" max="100" value="0"></label>
+        <label class="wide">備註<textarea id="projectNote"></textarea></label>
       </div>
-
-      <label>案場名稱
-        <input name="name" required placeholder="例如：八德陳宅">
-      </label>
-
-      <label>業主姓名
-        <input name="owner" required>
-      </label>
-
-      <label>業主電話
-        <input name="ownerPhone" inputmode="tel">
-      </label>
-
-      <label>案場地址
-        <input name="address" required>
-      </label>
-
-      <label>工程類型
-        <select name="projectType">
-          <option>住宅</option>
-          <option>商業空間</option>
-          <option>辦公室</option>
-          <option>店面</option>
-          <option>餐廳</option>
-          <option>咖啡廳</option>
-          <option>診所</option>
-          <option>接待中心</option>
-          <option>其他</option>
-        </select>
-      </label>
-
-      <div class="dialog-actions">
-        <button type="button" id="cancelBtn" class="secondary">取消</button>
-        <button type="submit" class="primary">儲存工程</button>
-      </div>
-      <div id="formMessage" class="message"></div>
+      <div class="dialog-actions"><button type="button" class="secondary close">取消</button><button class="primary" value="default">儲存工程</button></div>
     </form>
   </dialog>
 
-  <script type="module" src="./app.js"></script>
+  <dialog id="reportDialog">
+    <form id="reportForm" method="dialog">
+      <div class="dialog-head"><h3>施工日誌</h3><button type="button" class="icon-btn close">×</button></div>
+      <input type="hidden" id="reportId">
+      <div class="form-grid">
+        <label class="wide">案場 *<select id="reportProject" required></select></label>
+        <label>施工日期 *<input id="reportDate" type="date" required></label>
+        <label>進場時間<input id="reportTime" type="time"></label>
+        <label>施工階段<select id="reportStage"></select></label>
+        <label>今日人數<input id="reportPeople" type="number" min="0" value="0"></label>
+        <label class="wide">今日施工內容<textarea id="reportWork"></textarea></label>
+        <label class="wide">今日異常事項<textarea id="reportIssue" placeholder="缺料、停工、變更、驗收等"></textarea></label>
+        <label class="wide">照片<input id="reportPhotos" type="file" accept="image/*" multiple capture="environment"></label>
+        <label class="wide check"><input id="reportGpsEnabled" type="checkbox"> 儲存目前 GPS 位置</label>
+        <div class="wide signature-grid">
+          <div><span>業主簽名</span><canvas id="ownerSig"></canvas><button type="button" class="link-btn" data-clear-sig="ownerSig">清除</button></div>
+          <div><span>設計公司簽名</span><canvas id="companySig"></canvas><button type="button" class="link-btn" data-clear-sig="companySig">清除</button></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button type="button" class="secondary close">取消</button><button type="button" class="secondary" id="printCurrentBtn">列印</button><button class="primary" value="default">儲存日誌</button></div>
+    </form>
+  </dialog>
+
+  <template id="emptyTpl"><div class="empty">目前沒有資料</div></template>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
